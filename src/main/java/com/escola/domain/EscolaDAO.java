@@ -17,13 +17,13 @@ public class EscolaDAO {
      * @return
      * @throws SQLException
      */
-    public List<AlunoVO> getAlunosPorAula(Integer id, Connection connection) throws SQLException {
+    public List<AlunoVO> getAlunosPorTurma(Integer id, Connection connection) throws SQLException {
         StringBuilder sql = new StringBuilder();
-        PreparedStatement pst= null;
+        PreparedStatement pst = null;
         List<AlunoVO> alunos = new ArrayList<>();
-        sql.append("select * from alunos where CD_SALA = ?");
+        sql.append("select * from alunos where CD_TURMA = ?");
         try{
-            pst = connection.prepareStatement(sql.toString());
+             pst = connection.prepareStatement(sql.toString());
             pst.setInt(1, id);
 
 
@@ -42,6 +42,34 @@ public class EscolaDAO {
             return alunos;
         }finally{
             connection.close();
+            pst.close();
+        }
+    }
+
+    public boolean validaProfessorParaTurma(Integer idProfessor, Integer idTurma, Connection con) throws SQLException {
+        StringBuilder sql = new StringBuilder();
+        PreparedStatement pst = null;
+       
+        sql.append("select * from alunos where CD_TURMA = ?");
+        Boolean professorValido = false;
+        try{
+             pst = con.prepareStatement(sql.toString());
+            pst.setInt(1, idTurma);
+            pst.setInt(2, idProfessor);
+
+
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+                professorValido = true;
+            }
+
+            
+
+            
+            return professorValido;
+        }finally{
+            con.close();
+            pst.close();
         }
     }
     

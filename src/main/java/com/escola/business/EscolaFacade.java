@@ -1,6 +1,7 @@
 package com.escola.business;
 
 import java.sql.Connection;
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -16,15 +17,19 @@ public class EscolaFacade {
         return this;
     }
 
-    final static Logger logger = LoggerFactory.getLogger(EscolaFacade.class);
-    public List<AlunoVO> getAlunosPorAula(Integer id) {
+    static final Logger logger = LoggerFactory.getLogger(EscolaFacade.class);
+    public List<AlunoVO> getAlunosPorTurma(Integer idTurma, Integer idProfessor) throws ProfessorInvalidoException{
         try{
             EscolaDAO escolaDAO = new EscolaDAO();
             Connection con = ConnectionFactory.getConnection();
-            return escolaDAO.getAlunosPorAula(id, con);
-            // if(id!= null){
-            //     return null;
-            // }
+            
+           
+            
+            if(validaProfessorParaTurma(idProfessor,idTurma)){
+                throw new ProfessorInvalidoException();
+            }
+
+            return escolaDAO.getAlunosPorTurma(idTurma, con);
         }catch(Exception e ){
             logger.error("erro ao buscar alunos dessa sala", e);
         }
@@ -32,6 +37,19 @@ public class EscolaFacade {
 
 
         return null;
+    }
+    private boolean validaProfessorParaTurma(Integer idProfessor, Integer idTurma) {
+
+        try{
+            EscolaDAO escolaDAO = new EscolaDAO();
+            Connection con = ConnectionFactory.getConnection();
+            return escolaDAO.validaProfessorParaTurma(idProfessor, idTurma, con);
+        }
+        catch(Exception e ){
+            logger.error("erro ao buscar alunos dessa sala", e);
+        }
+        
+        return false;
     }
     
 }
