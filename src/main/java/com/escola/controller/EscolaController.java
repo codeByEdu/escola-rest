@@ -15,9 +15,9 @@ import com.escola.model.AlunoVO;
 @RestController
 public class EscolaController {
   @GetMapping("/all")
-  public List<AlunoVO> getAlunosPorAula(@RequestParam String id) {
+  public List<AlunoVO> getAlunosPorAula(@RequestParam Integer id) {
     EscolaFacade facade = new EscolaFacade();
-    
+
     List<AlunoVO> alunos = facade.getAlunosPorAula(id);
 
     return alunos;
