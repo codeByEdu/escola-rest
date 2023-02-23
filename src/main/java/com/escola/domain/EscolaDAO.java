@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.escola.model.AlunoVO;
+import com.escola.model.ProfessorVO;
 
 public class EscolaDAO {
 
@@ -73,5 +74,32 @@ public class EscolaDAO {
             pst.close();
         }
     }
+
+    public List<ProfessorVO> getProfessores(Connection connection) throws SQLException {
+        StringBuilder sql = new StringBuilder();
+        PreparedStatement pst = null;
+        List<ProfessorVO> professores = new ArrayList<>();
+        sql.append("select * from professores");
+        try{
+             pst = connection.prepareStatement(sql.toString());
+
+
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()){
+                ProfessorVO professor = new ProfessorVO();
+                professor.setEmail(rs.getString("TX_EMAIL"));
+                professor.setNome(rs.getString("TX_NOME"));
+                professor.setId(rs.getInt("CD_PROFESSOR"));
+                professores.add(professor);
+            }
+
+            return professores;
+        }finally{
+            connection.close();
+            pst.close();
+        }
+    }
+
+    
     
 }

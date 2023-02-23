@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.escola.business.EscolaFacade;
 import com.escola.business.ProfessorInvalidoException;
 import com.escola.model.AlunoVO;
+import com.escola.model.ProfessorVO;
 
 @RestController
 public class EscolaController {
@@ -26,6 +27,21 @@ public class EscolaController {
             .status(HttpStatus.FORBIDDEN)
             .body("Professor não tem acesso para esta turma");
     }
+
+  }
+
+  @GetMapping("/professores")
+  public ResponseEntity getProfessores() {
+    
+    try {
+      EscolaFacade facade = new EscolaFacade();
+      List<ProfessorVO> professores = facade.getProfessores();
+      return ResponseEntity.ok().body(professores);
+    } 
+    catch(Exception e ){
+      return null;
+    }
+   
 
   }
 

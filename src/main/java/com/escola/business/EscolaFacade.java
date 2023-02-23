@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.escola.config.ConnectionFactory;
 import com.escola.domain.EscolaDAO;
 import com.escola.model.AlunoVO;
+import com.escola.model.ProfessorVO;
 
 public class EscolaFacade {
 
@@ -49,6 +50,17 @@ public class EscolaFacade {
         }
 
     
+    }
+    public List<ProfessorVO> getProfessores() {
+        try {
+            EscolaDAO escolaDAO = new EscolaDAO();
+            Connection con = ConnectionFactory.getConnection();
+
+            return escolaDAO.getProfessores(con);
+        } catch (Exception e) {
+            logger.error("Erro ao buscar professores", e);
+        }
+        return null;
     }
     
 }
