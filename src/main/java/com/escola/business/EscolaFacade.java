@@ -1,7 +1,6 @@
 package com.escola.business;
 
 import java.sql.Connection;
-import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -18,38 +17,38 @@ public class EscolaFacade {
     }
 
     static final Logger logger = LoggerFactory.getLogger(EscolaFacade.class);
-    public List<AlunoVO> getAlunosPorTurma(Integer idTurma, Integer idProfessor) throws ProfessorInvalidoException{
+    public List<AlunoVO> getAlunosPorTurma(Integer idTurma, Integer idProfessor) throws ProfessorInvalidoException {
         try{
             EscolaDAO escolaDAO = new EscolaDAO();
             Connection con = ConnectionFactory.getConnection();
-            
-           
-            
-            if(validaProfessorParaTurma(idProfessor,idTurma)){
-                throw new ProfessorInvalidoException();
-            }
-
+            validaProfessorParaTurma(idProfessor,idTurma);
             return escolaDAO.getAlunosPorTurma(idTurma, con);
-        }catch(Exception e ){
-            logger.error("erro ao buscar alunos dessa sala", e);
-        }
-        
-
-
-        return null;
-    }
-    private boolean validaProfessorParaTurma(Integer idProfessor, Integer idTurma) {
-
-        try{
-            EscolaDAO escolaDAO = new EscolaDAO();
-            Connection con = ConnectionFactory.getConnection();
-            return escolaDAO.validaProfessorParaTurma(idProfessor, idTurma, con);
+        }catch(ProfessorInvalidoException e){
+            logger.info("Professor: "+ idProfessor +" não tem acesso a turma: "+idTurma);
+            throw new ProfessorInvalidoException();
         }
         catch(Exception e ){
             logger.error("erro ao buscar alunos dessa sala", e);
         }
-        
-        return false;
+        return null;
+    }
+    private void validaProfessorParaTurma(Integer idProfessor, Integer idTurma) throws ProfessorInvalidoException{
+
+        try{
+            EscolaDAO escolaDAO = new EscolaDAO();
+            Connection con = ConnectionFactory.getConnection();
+            if(!escolaDAO.validaProfessorParaTurma(idProfessor, idTurma, con)){
+                throw new ProfessorInvalidoException();
+            }
+        }
+        catch(ProfessorInvalidoException e ){
+            throw new ProfessorInvalidoException();
+        }
+        catch(Exception e ){
+            logger.error("erro ao buscar alunos dessa sala", e);
+        }
+
+    
     }
     
 }

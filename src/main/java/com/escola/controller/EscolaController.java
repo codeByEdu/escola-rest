@@ -2,6 +2,7 @@ package com.escola.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,14 +14,17 @@ import com.escola.model.AlunoVO;
 
 @RestController
 public class EscolaController {
-  @GetMapping("/all")
-  public ResponseEntity<List<AlunoVO>> getAlunosPorTurma(@RequestParam Integer idTurma, @RequestParam Integer idProf) {
-    EscolaFacade facade = new EscolaFacade();
+  @GetMapping("/alunos")
+  public ResponseEntity getAlunosPorTurma(@RequestParam Integer idTurma, @RequestParam Integer idProf) {
+    
     try {
-     
-      return ResponseEntity.ok().body(facade.getAlunosPorTurma(idTurma, idProf));
+      EscolaFacade facade = new EscolaFacade();
+      List<AlunoVO> alunos = facade.getAlunosPorTurma(idTurma, idProf);
+      return ResponseEntity.ok().body(alunos);
     } catch (ProfessorInvalidoException e) {
-      return ResponseEntity.notFound().build();
+      return ResponseEntity
+            .status(HttpStatus.FORBIDDEN)
+            .body("Professor não tem acesso para esta turma");
     }
 
   }

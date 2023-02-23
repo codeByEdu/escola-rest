@@ -13,7 +13,7 @@ public class EscolaDAO {
 
     /**
      * @param id
-     * @param connection TODO
+     * @param connection 
      * @return
      * @throws SQLException
      */
@@ -50,7 +50,8 @@ public class EscolaDAO {
         StringBuilder sql = new StringBuilder();
         PreparedStatement pst = null;
        
-        sql.append("select * from alunos where CD_TURMA = ?");
+        sql.append("select 1  from turmas");
+        sql.append(" where CD_TURMA = ? AND CD_PROF = ?");
         Boolean professorValido = false;
         try{
              pst = con.prepareStatement(sql.toString());
