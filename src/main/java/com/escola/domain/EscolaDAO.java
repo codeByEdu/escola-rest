@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.escola.model.AlunoVO;
+import com.escola.model.FaltaVO;
 import com.escola.model.ProfessorVO;
 
 public class EscolaDAO {
@@ -98,6 +99,60 @@ public class EscolaDAO {
             connection.close();
             pst.close();
         }
+    }
+
+    public AlunoVO getAlunoPorId(Connection con, Integer codAluno) throws SQLException {
+        StringBuilder sql = new StringBuilder();
+        PreparedStatement pst = null;
+        sql.append("select * from aluno where cd_aluno = ?");
+        
+        AlunoVO aluno = new AlunoVO();
+        try{
+             pst = con.prepareStatement(sql.toString());
+             pst.setInt(1, codAluno);
+
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()){
+               
+                aluno.setEmailResponsavel(rs.getString("TX_EMAIL"));
+                aluno.setNome(rs.getString("TX_NOME"));
+                aluno.setId(rs.getInt("CD_ALUNO"));
+           
+            }
+
+            return aluno;
+        }finally{
+            con.close();
+            pst.close();
+        }
+    }
+
+    public ProfessorVO getProfessorPorId(Connection con, Integer codProf) throws SQLException {
+        StringBuilder sql = new StringBuilder();
+        PreparedStatement pst = null;
+        ProfessorVO professor = new ProfessorVO();
+        sql.append("select * from professores where cd_professor = ?");
+        try{
+             pst = con.prepareStatement(sql.toString());
+            pst.setInt(1, codProf);
+
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()){
+               
+                professor.setEmail(rs.getString("TX_EMAIL"));
+                professor.setNome(rs.getString("TX_NOME"));
+                professor.setId(rs.getInt("CD_PROFESSOR"));
+                
+            }
+
+            return professor;
+        }finally{
+            con.close();
+            pst.close();
+        }
+    }
+
+    public void registraFalta(Connection con, FaltaVO falta) {
     }
 
     

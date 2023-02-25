@@ -9,13 +9,11 @@ import org.slf4j.LoggerFactory;
 import com.escola.config.ConnectionFactory;
 import com.escola.domain.EscolaDAO;
 import com.escola.model.AlunoVO;
+import com.escola.model.FaltaVO;
 import com.escola.model.ProfessorVO;
 
 public class EscolaFacade {
 
-    public EscolaFacade EscolaFacade(){
-        return this;
-    }
 
     static final Logger logger = LoggerFactory.getLogger(EscolaFacade.class);
     public List<AlunoVO> getAlunosPorTurma(Integer idTurma, Integer idProfessor) throws ProfessorInvalidoException {
@@ -61,6 +59,39 @@ public class EscolaFacade {
             logger.error("Erro ao buscar professores", e);
         }
         return null;
+    }
+    public AlunoVO obtemAlunoPorId(Integer codAluno) {
+        try {
+            EscolaDAO escolaDAO = new EscolaDAO();
+            Connection con = ConnectionFactory.getConnection();
+
+            return escolaDAO.getAlunoPorId(con, codAluno);
+        } catch (Exception e) {
+            logger.error("Erro ao buscar aluno", e);
+        }
+        return null;
+    }
+    public ProfessorVO obtemProfessorPorId(Integer codProf) {
+        try {
+            EscolaDAO escolaDAO = new EscolaDAO();
+            Connection con = ConnectionFactory.getConnection();
+
+            return escolaDAO.getProfessorPorId(con, codProf);
+        } catch (Exception e) {
+            logger.error("Erro ao buscar professor", e);
+        }
+        return null;
+    }
+    public void registraFalta(FaltaVO falta) {
+        try {
+            EscolaDAO escolaDAO = new EscolaDAO();
+            Connection con = ConnectionFactory.getConnection();
+
+            escolaDAO.registraFalta(con, falta);
+        } catch (Exception e) {
+            logger.error("Erro ao registrar falta", e);
+        }
+     
     }
     
 }
