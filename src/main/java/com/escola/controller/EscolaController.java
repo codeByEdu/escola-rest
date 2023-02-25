@@ -17,6 +17,8 @@ import com.escola.model.AlunoVO;
 import com.escola.model.FaltaVO;
 import com.escola.model.ProfessorVO;
 
+import ch.qos.logback.classic.Logger;
+
 @RestController
 public class EscolaController {
   @GetMapping("/alunos")
@@ -74,13 +76,8 @@ public class EscolaController {
 
 
    } catch (Exception e) {
-    // TODO: handle exception
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
    }
-
-
-
-    return null;
-
     
   }
 

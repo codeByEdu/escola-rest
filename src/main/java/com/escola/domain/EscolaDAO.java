@@ -104,7 +104,7 @@ public class EscolaDAO {
     public AlunoVO getAlunoPorId(Connection con, Integer codAluno) throws SQLException {
         StringBuilder sql = new StringBuilder();
         PreparedStatement pst = null;
-        sql.append("select * from aluno where cd_aluno = ?");
+        sql.append("select * from alunos where cd_aluno = ?");
         
         AlunoVO aluno = new AlunoVO();
         try{
@@ -152,7 +152,29 @@ public class EscolaDAO {
         }
     }
 
-    public void registraFalta(Connection con, FaltaVO falta) {
+    public void registraFalta(Connection con, FaltaVO falta) throws SQLException {
+
+        StringBuilder sql = new StringBuilder();
+        PreparedStatement pst = null;
+      
+       sql.append(" insert into  faltas" );
+       sql.append(" (CD_ALUNO, CD_PROF, TX_JUSTIFICATIVA, DT_FALTA) " );
+       sql.append(" VALUES" );
+       sql.append(" (?,?,?, current_date())" );
+        try{
+             pst = con.prepareStatement(sql.toString());
+            pst.setInt(1, falta.getCodAluno());
+            pst.setInt(2, falta.getCodProf());
+            pst.setString(3, falta.getJustificativa());
+           
+            pst.executeUpdate();
+            
+
+            
+        }finally{
+            con.close();
+            pst.close();
+        }
     }
 
     
