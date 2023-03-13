@@ -21,20 +21,7 @@ import ch.qos.logback.classic.Logger;
 
 @RestController
 public class EscolaController {
-  @GetMapping("/alunos")
-  public ResponseEntity getAlunosPorTurma(@RequestParam Integer idTurma, @RequestParam Integer idProf) {
-    
-    try {
-      EscolaFacade facade = new EscolaFacade();
-      List<AlunoVO> alunos = facade.getAlunosPorTurma(idTurma, idProf);
-      return ResponseEntity.ok().body(alunos);
-    } catch (ProfessorInvalidoException e) {
-      return ResponseEntity
-            .status(HttpStatus.FORBIDDEN)
-            .body("Professor não tem acesso para esta turma");
-    }
-
-  }
+ 
 
   @GetMapping("/professores")
   public ResponseEntity getProfessorres() {
@@ -46,9 +33,7 @@ public class EscolaController {
     } 
     catch(Exception e ){
       return null;
-    }
-   
-
+    }  
   }
 
   @PostMapping("/falta")
@@ -71,16 +56,9 @@ public class EscolaController {
 
       }
     }
-
-
-
-
    } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
    }
-    
   }
-
-
 
 }

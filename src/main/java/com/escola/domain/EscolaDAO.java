@@ -13,46 +13,12 @@ import com.escola.model.ProfessorVO;
 
 public class EscolaDAO {
 
-    /**
-     * @param id
-     * @param connection 
-     * @return
-     * @throws SQLException
-     */
-    public List<AlunoVO> getAlunosPorTurma(Integer id, Connection connection) throws SQLException {
-        StringBuilder sql = new StringBuilder();
-        PreparedStatement pst = null;
-        List<AlunoVO> alunos = new ArrayList<>();
-        sql.append("select * from alunos where CD_TURMA = ?");
-        try{
-             pst = connection.prepareStatement(sql.toString());
-            pst.setInt(1, id);
-
-
-            ResultSet rs = pst.executeQuery();
-            while(rs.next()){
-                AlunoVO aluno = new AlunoVO();
-                aluno.setId(rs.getInt("CD_ALUNO"));
-                aluno.setEmailResponsavel(rs.getString("TX_EMAIL"));
-                aluno.setNome(rs.getString("TX_NOME"));
-                alunos.add(aluno);
-            }
-
-            
-
-            
-            return alunos;
-        }finally{
-            connection.close();
-            pst.close();
-        }
-    }
-
+    
     public boolean validaProfessorParaTurma(Integer idProfessor, Integer idTurma, Connection con) throws SQLException {
         StringBuilder sql = new StringBuilder();
         PreparedStatement pst = null;
        
-        sql.append("select 1  from turmas");
+        sql.append("select 1  from TURMA_PROFESSOR");
         sql.append(" where CD_TURMA = ? AND CD_PROF = ?");
         Boolean professorValido = false;
         try{
