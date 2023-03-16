@@ -1,40 +1,20 @@
 package com.escola.controller;
 
-import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.escola.business.EscolaFacade;
-import com.escola.business.ProfessorInvalidoException;
 import com.escola.config.Constants;
 import com.escola.model.AlunoVO;
 import com.escola.model.FaltaVO;
 import com.escola.model.ProfessorVO;
 
-import ch.qos.logback.classic.Logger;
-
 @RestController
 public class EscolaController {
  
-
-  @GetMapping("/professores")
-  public ResponseEntity getProfessorres() {
-    
-    try {
-      EscolaFacade facade = new EscolaFacade();
-      List<ProfessorVO> professores = facade.getProfessores();
-      return ResponseEntity.ok().body(professores);
-    } 
-    catch(Exception e ){
-      return null;
-    }  
-  }
 
   @PostMapping("/falta")
   public ResponseEntity postFalta(@RequestBody FaltaVO falta){
