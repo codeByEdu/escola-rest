@@ -13,31 +13,30 @@ import com.escola.business.AlunoFacade;
 import com.escola.business.EscolaFacade;
 import com.escola.business.ProfessorInvalidoException;
 import com.escola.model.AlunoVO;
+
 @RequestMapping("/aluno")
 @RestController
 public class AlunoController {
   @GetMapping("/class")
   public ResponseEntity getAlunosPorTurma(@RequestParam Integer idTurma, @RequestParam Integer idProf) {
-    
+
     try {
       AlunoFacade facade = new AlunoFacade();
       List<AlunoVO> alunos = facade.getAlunosPorTurma(idTurma, idProf);
       return ResponseEntity.ok().body(alunos);
     } catch (ProfessorInvalidoException e) {
       return ResponseEntity
-            .status(HttpStatus.FORBIDDEN)
-            .body("Professor não tem acesso para esta turma");
+          .status(HttpStatus.FORBIDDEN)
+          .body("Professor não tem acesso para esta turma");
     }
   }
+
   @GetMapping("/name")
   public ResponseEntity getAlunoPorNome(@RequestParam String nome) {
-    
-   
-      AlunoFacade facade = new AlunoFacade();
-      AlunoVO alunos = facade.getAlunoPorNome(nome);
-      return ResponseEntity.ok().body(alunos);
-    
-  }
+    AlunoFacade facade = new AlunoFacade();
+    AlunoVO alunos = facade.getAlunoPorNome(nome);
+    return ResponseEntity.ok().body(alunos);
 
+  }
 
 }

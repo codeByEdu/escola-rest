@@ -9,32 +9,32 @@ import org.slf4j.LoggerFactory;
 import com.escola.config.ConnectionFactory;
 import com.escola.domain.EscolaDAO;
 import com.escola.model.AlunoVO;
+import com.escola.model.DisciplinaVO;
 import com.escola.model.FaltaVO;
 import com.escola.model.ProfessorVO;
+import com.escola.model.TipoVO;
+import com.escola.model.TurmaVO;
 
 public class EscolaFacade {
 
-
     static final Logger logger = LoggerFactory.getLogger(EscolaFacade.class);
-    
-    public void validaProfessorParaTurma(Integer idProfessor, Integer idTurma) throws ProfessorInvalidoException{
 
-        try{
+    public void validaProfessorParaTurma(Integer idProfessor, Integer idTurma) throws ProfessorInvalidoException {
+
+        try {
             EscolaDAO escolaDAO = new EscolaDAO();
             Connection con = ConnectionFactory.getConnection();
-            if(!escolaDAO.validaProfessorParaTurma(idProfessor, idTurma, con)){
+            if (!escolaDAO.validaProfessorParaTurma(idProfessor, idTurma, con)) {
                 throw new ProfessorInvalidoException();
             }
-        }
-        catch(ProfessorInvalidoException e ){
+        } catch (ProfessorInvalidoException e) {
             throw new ProfessorInvalidoException();
-        }
-        catch(Exception e ){
+        } catch (Exception e) {
             logger.error("erro ao buscar alunos dessa sala", e);
         }
 
-    
     }
+
     public List<ProfessorVO> getProfessores() {
         try {
             EscolaDAO escolaDAO = new EscolaDAO();
@@ -46,6 +46,7 @@ public class EscolaFacade {
         }
         return null;
     }
+
     public AlunoVO obtemAlunoPorId(Integer codAluno) {
         try {
             EscolaDAO escolaDAO = new EscolaDAO();
@@ -57,6 +58,7 @@ public class EscolaFacade {
         }
         return null;
     }
+
     public ProfessorVO obtemProfessorPorId(Integer codProf) {
         try {
             EscolaDAO escolaDAO = new EscolaDAO();
@@ -68,6 +70,7 @@ public class EscolaFacade {
         }
         return null;
     }
+
     public void registraFalta(FaltaVO falta) {
         try {
             EscolaDAO escolaDAO = new EscolaDAO();
@@ -77,7 +80,43 @@ public class EscolaFacade {
         } catch (Exception e) {
             logger.error("Erro ao registrar falta", e);
         }
-     
+
     }
-    
+
+    public List<TurmaVO> getTurmas() {
+        try {
+            EscolaDAO escolaDAO = new EscolaDAO();
+            Connection con = ConnectionFactory.getConnection();
+
+            return escolaDAO.getTurmas(con);
+        } catch (Exception e) {
+            logger.error("Erro ao buscar turmas", e);
+        }
+        return null;
+    }
+
+    public List<TipoVO> getTipoProfessor() {
+        try {
+            EscolaDAO escolaDAO = new EscolaDAO();
+            Connection con = ConnectionFactory.getConnection();
+
+            return escolaDAO.getTiposProfessor(con);
+        } catch (Exception e) {
+            logger.error("Erro ao buscar tipos de professor", e);
+        }
+        return null;
+    }
+
+    public List<DisciplinaVO> getDisciplinas() {
+        try {
+            EscolaDAO escolaDAO = new EscolaDAO();
+            Connection con = ConnectionFactory.getConnection();
+
+            return escolaDAO.getDisciplinas(con);
+        } catch (Exception e) {
+            logger.error("Erro ao buscar disciplinas", e);
+        }
+        return null;
+    }
+
 }
