@@ -24,7 +24,6 @@ public class ConnectionFactory {
                 jdbcUrl = props.getProperty("spring.datasource.url");
                 jdbcUser = props.getProperty("spring.datasource.user");
                 jdbcPassword = props.getProperty("spring.datasource.password");
-                System.out.println(System.getProperty("connectionString"));
 
                 // get the property value and print it out
 
