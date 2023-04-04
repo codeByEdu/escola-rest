@@ -12,7 +12,7 @@ import com.escola.business.EscolaFacade;
 import com.escola.model.ProfessorVO;
 import com.escola.model.TipoVO;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RequestMapping("/professor")
 @RestController
 public class ProfessorController {

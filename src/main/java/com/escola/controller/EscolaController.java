@@ -21,7 +21,7 @@ import com.escola.model.FaltaVO;
 import com.escola.model.ProfessorVO;
 import com.escola.model.TurmaVO;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RequestMapping("/escola")
 @RestController
 public class EscolaController {
