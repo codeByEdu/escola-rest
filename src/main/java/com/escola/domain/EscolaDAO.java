@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+
 import com.escola.model.AlunoVO;
 import com.escola.model.DisciplinaVO;
 import com.escola.model.FaltaVO;
@@ -15,6 +18,9 @@ import com.escola.model.TipoVO;
 import com.escola.model.TurmaVO;
 
 public class EscolaDAO {
+
+    @Autowired
+    NamedParameterJdbcTemplate jdbcTemplate;
 
     public boolean validaProfessorParaTurma(Integer idProfessor, Integer idTurma, Connection con) throws SQLException {
         StringBuilder sql = new StringBuilder();

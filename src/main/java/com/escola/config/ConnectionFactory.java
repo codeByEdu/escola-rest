@@ -16,20 +16,12 @@ public class ConnectionFactory {
     public static Connection getConnection() throws IOException {
 
         try {
-            String resourceName = "application.properties"; // could also be a constant
-            ClassLoader loader = Thread.currentThread().getContextClassLoader();
-            Properties props = new Properties();
-            try (InputStream resourceStream = loader.getResourceAsStream(resourceName)) {
-                props.load(resourceStream);
-                jdbcUrl = props.getProperty("spring.datasource.url");
-                jdbcUser = props.getProperty("spring.datasource.user");
-                jdbcPassword = props.getProperty("spring.datasource.password");
 
-                // get the property value and print it out
+            // get the property value and print it out
 
-                return DriverManager.getConnection(
-                        jdbcUrl, jdbcUser, jdbcPassword);
-            }
+            return DriverManager.getConnection(
+                    "jdbc:postgresql://devhiga.tech:32/edu-sistema-falta", "postgres", "devdbhiga");
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
