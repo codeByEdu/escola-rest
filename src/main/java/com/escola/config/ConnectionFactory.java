@@ -8,6 +8,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import org.postgresql.PGProperty;
+
 public class ConnectionFactory {
     static String jdbcUrl;
     static String jdbcUser;
@@ -17,10 +19,8 @@ public class ConnectionFactory {
 
         try {
 
-            // get the property value and print it out
-
             return DriverManager.getConnection(
-                    "jdbc:postgresql://henriquehiga:32//edu-sistema-falta", "postgres", "devdbhiga");
+                    "jdbc:postgresql://henriquehiga.com:32/edu-sistema-falta", "postgres", "devdbhiga");
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
