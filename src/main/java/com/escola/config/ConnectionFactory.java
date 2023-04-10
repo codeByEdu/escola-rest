@@ -20,7 +20,7 @@ public class ConnectionFactory {
             // get the property value and print it out
 
             return DriverManager.getConnection(
-                    "jdbc:postgresql://henriquehiga.com:32//edu-sistema-falta", "postgres", "devdbhiga");
+                    "jdbc:postgresql://henriquehiga:32//edu-sistema-falta", "postgres", "devdbhiga");
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
