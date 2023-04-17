@@ -59,6 +59,23 @@ public class EscolaController {
 
   }
 
+  // add turma
+  @PostMapping("/turma")
+  public ResponseEntity postTurma(@RequestBody TurmaVO turma) {
+    try {
+      if (turma == null || turma.getAno() == null || turma.getAno().isEmpty()) {
+        return ResponseEntity.badRequest().build();
+      } else {
+        EscolaFacade facade = new EscolaFacade();
+        facade.addTurma(turma);
+        facade.vinculaProfessorTurma(turma.getProfessorResponsavel().getId(), turma.getCodigo());
+        return ResponseEntity.status(HttpStatus.CREATED).body("Turma adicionada");
+      }
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+  }
+
   @GetMapping("/disciplinas")
   public ResponseEntity getDisciplinas() {
     EscolaFacade facade = new EscolaFacade();

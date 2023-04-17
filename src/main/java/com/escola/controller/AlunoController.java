@@ -33,6 +33,20 @@ public class AlunoController {
     }
   }
 
+  @GetMapping("/class/all")
+  public ResponseEntity getAlunosPorTurma(@RequestParam Integer idTurma) {
+
+    try {
+      AlunoFacade facade = new AlunoFacade();
+      List<AlunoVO> alunos = facade.getAlunosPorTurma(idTurma);
+      return ResponseEntity.ok().body(alunos);
+    } catch (Exception e) {
+      return ResponseEntity
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body("Erro ao buscar alunos dessa turma");
+    }
+  }
+
   @GetMapping("/name")
   public ResponseEntity getAlunoPorNome(@RequestParam String nome) {
     AlunoFacade facade = new AlunoFacade();

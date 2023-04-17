@@ -1,16 +1,23 @@
 package com.escola.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public class ProfessorVO {
     private Integer id;
     private String nome;
     private String email;
-    private String tipoProfessor;
+    private TipoVO tipoProfessor;
 
-    public String getTipoProfessor() {
+    @JsonCreator
+    public ProfessorVO() {
+        this.tipoProfessor = new TipoVO();
+    }
+
+    public TipoVO getTipoProfessor() {
         return tipoProfessor;
     }
 
-    public void setTipoProfessor(String tipoProfessor) {
+    public void setTipoProfessor(TipoVO tipoProfessor) {
         this.tipoProfessor = tipoProfessor;
     }
 

@@ -14,6 +14,7 @@ import com.escola.model.AlunoVO;
 public class AlunoFacade {
 
     static final Logger logger = LoggerFactory.getLogger(AlunoFacade.class);
+
     public AlunoVO getAlunoPorNome(String nome) {
         try {
             AlunoDAO alunoDAO = new AlunoDAO();
@@ -25,18 +26,30 @@ public class AlunoFacade {
         }
         return null;
     }
+
     public List<AlunoVO> getAlunosPorTurma(Integer idTurma, Integer idProfessor) throws ProfessorInvalidoException {
-        try{
+        try {
             EscolaFacade escolaFacade = new EscolaFacade();
             AlunoDAO alunoDAO = new AlunoDAO();
             Connection con = ConnectionFactory.getConnection();
-            escolaFacade.validaProfessorParaTurma(idProfessor,idTurma);
+            escolaFacade.validaProfessorParaTurma(idProfessor, idTurma);
             return alunoDAO.getAlunosPorTurma(idTurma, con);
-        }catch(ProfessorInvalidoException e){
-            logger.info("Professor: "+ idProfessor +" não tem acesso a turma: "+idTurma);
+        } catch (ProfessorInvalidoException e) {
+            logger.info("Professor: " + idProfessor + " não tem acesso a turma: " + idTurma);
             throw new ProfessorInvalidoException();
+        } catch (Exception e) {
+            logger.error("erro ao buscar alunos dessa sala", e);
         }
-        catch(Exception e ){
+        return null;
+    }
+
+    public List<AlunoVO> getAlunosPorTurma(Integer idTurma) {
+        try {
+            AlunoDAO alunoDAO = new AlunoDAO();
+            Connection con = ConnectionFactory.getConnection();
+
+            return alunoDAO.getAlunosPorTurma(idTurma, con);
+        } catch (Exception e) {
             logger.error("erro ao buscar alunos dessa sala", e);
         }
         return null;

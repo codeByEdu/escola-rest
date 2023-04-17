@@ -62,7 +62,7 @@ public class EscolaDAO {
                 professor.setEmail(rs.getString("TX_EMAIL"));
                 professor.setNome(rs.getString("TX_NOME"));
                 professor.setId(rs.getInt("CD_PROFESSOR"));
-                professor.setTipoProfessor(rs.getString("TX_DESCRICAO"));
+                professor.getTipoProfessor().setDescricao(rs.getString("TX_DESCRICAO"));
                 professores.add(professor);
             }
 
@@ -219,6 +219,134 @@ public class EscolaDAO {
             }
 
             return disciplinas;
+        } finally {
+            con.close();
+            pst.close();
+        }
+    }
+
+    public void addProfessor(ProfessorVO prof, Connection con) throws SQLException {
+        StringBuilder sql = new StringBuilder();
+        PreparedStatement pst = null;
+
+        sql.append(" insert into  PROFESSOR");
+        sql.append(" (TX_EMAIL, TX_NOME, CD_TIPO) ");
+        sql.append(" VALUES");
+        sql.append(" (?,?,?)");
+        try {
+            pst = con.prepareStatement(sql.toString());
+            pst.setString(1, prof.getEmail());
+            pst.setString(2, prof.getNome());
+            pst.setInt(3, prof.getTipoProfessor().getId());
+
+            pst.executeUpdate();
+
+        } finally {
+            con.close();
+            pst.close();
+        }
+    }
+    // update professor
+
+    public void updateProfessor(ProfessorVO prof, Connection con) throws SQLException {
+        StringBuilder sql = new StringBuilder();
+        PreparedStatement pst = null;
+
+        sql.append(" update  PROFESSOR");
+        sql.append(" set TX_EMAIL = ?, TX_NOME = ?, CD_TIPO = ? ");
+        sql.append(" where CD_PROFESSOR = ?");
+        try {
+            pst = con.prepareStatement(sql.toString());
+            pst.setString(1, prof.getEmail());
+            pst.setString(2, prof.getNome());
+            pst.setInt(3, prof.getTipoProfessor().getId());
+            pst.setInt(4, prof.getId());
+
+            pst.executeUpdate();
+
+        } finally {
+            con.close();
+            pst.close();
+        }
+    }
+    // delete professor
+
+    public void deleteProfessor(Long idProf, Connection con) throws SQLException {
+        StringBuilder sql = new StringBuilder();
+        PreparedStatement pst = null;
+
+        sql.append(" delete from PROFESSOR");
+        sql.append(" where CD_PROFESSOR = ?");
+        try {
+            pst = con.prepareStatement(sql.toString());
+            pst.setLong(1, idProf);
+
+            pst.executeUpdate();
+
+        } finally {
+            con.close();
+            pst.close();
+        }
+    }
+
+    public void addTurma(TurmaVO turma, Connection con) throws SQLException {
+        StringBuilder sql = new StringBuilder();
+        PreparedStatement pst = null;
+
+        sql.append(" insert into  TURMA");
+        sql.append(" (ANO, ) ");
+        sql.append(" VALUES");
+        sql.append(" (?)");
+        try {
+            pst = con.prepareStatement(sql.toString());
+            pst.setString(1, turma.getAno());
+
+            pst.executeUpdate();
+
+        } finally {
+            con.close();
+            pst.close();
+        }
+    }
+
+    // add TurmaxProfessor
+
+    public void vincularProfessorTurma(Integer prof, Integer turma, Connection con) throws SQLException {
+        StringBuilder sql = new StringBuilder();
+        PreparedStatement pst = null;
+
+        sql.append(" insert into  TURMA_PROFESSOR");
+        sql.append(" (CD_TURMA, CD_PROF) ");
+        sql.append(" VALUES");
+        sql.append(" (?,?)");
+        try {
+            pst = con.prepareStatement(sql.toString());
+            pst.setInt(1, turma);
+            pst.setInt(2, prof);
+
+            pst.executeUpdate();
+
+        } finally {
+            con.close();
+            pst.close();
+        }
+    }
+
+    public void vincularDisciplinaTurma(DisciplinaVO disciplina, TurmaVO turma, Connection con) throws SQLException {
+        StringBuilder sql = new StringBuilder();
+        PreparedStatement pst = null;
+
+        sql.append(" insert into  TURMA_DISCIPLINA");
+        sql.append(" (CD_TURMA, CD_DISCIPLINA) ");
+        sql.append(" VALUES");
+        sql.append(" (?,?)");
+        try {
+            pst = con.prepareStatement(sql.toString());
+            pst.setInt(1, turma.getCodigo());
+            pst.setInt(2, disciplina.getId());
+
+            pst.executeUpdate();
+
         } finally {
             con.close();
             pst.close();

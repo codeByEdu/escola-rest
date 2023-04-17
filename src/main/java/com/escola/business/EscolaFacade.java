@@ -119,4 +119,68 @@ public class EscolaFacade {
         return null;
     }
 
+    public void addProfessor(ProfessorVO prof) throws Exception {
+
+        try {
+            EscolaDAO escolaDAO = new EscolaDAO();
+            Connection con = ConnectionFactory.getConnection();
+
+            escolaDAO.addProfessor(prof, con);
+        } catch (Exception e) {
+            logger.error("Erro ao add professor", e);
+            throw new Exception(e);
+        }
+    }
+
+    public void addTurma(TurmaVO turma) throws Exception {
+
+        try {
+            EscolaDAO escolaDAO = new EscolaDAO();
+            Connection con = ConnectionFactory.getConnection();
+
+            escolaDAO.addTurma(turma, con);
+        } catch (Exception e) {
+            logger.error("Erro ao add turma", e);
+            throw new Exception(e);
+        }
+    }
+
+    // vincular professor a turma
+    public void vinculaProfessorTurma(Integer idProfessor, Integer idTurma) throws Exception {
+
+        try {
+            EscolaDAO escolaDAO = new EscolaDAO();
+            Connection con = ConnectionFactory.getConnection();
+
+            escolaDAO.vincularProfessorTurma(idProfessor, idTurma, con);
+        } catch (Exception e) {
+            logger.error("Erro ao vincular professor a turma", e);
+            throw new Exception(e);
+        }
+    }
+
+    public void removeProfessor(Long idProf) throws Exception {
+
+        try {
+            EscolaDAO escolaDAO = new EscolaDAO();
+            Connection con = ConnectionFactory.getConnection();
+
+            escolaDAO.deleteProfessor(idProf, con);
+        } catch (Exception e) {
+            logger.error("Erro ao remover professor", e);
+            throw new Exception(e);
+        }
+    }
+
+    public void updateProfessor(ProfessorVO prof) {
+        try {
+            EscolaDAO escolaDAO = new EscolaDAO();
+            Connection con = ConnectionFactory.getConnection();
+
+            escolaDAO.updateProfessor(prof, con);
+        } catch (Exception e) {
+            logger.error("Erro ao atualizar professor", e);
+        }
+    }
+
 }
