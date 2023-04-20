@@ -29,10 +29,10 @@ public class AlunoFacade {
 
     public List<AlunoVO> getAlunosPorTurma(Integer idTurma, Integer idProfessor) throws ProfessorInvalidoException {
         try {
-            EscolaFacade escolaFacade = new EscolaFacade();
+            ProfessorFacade professorFacade = new ProfessorFacade();
             AlunoDAO alunoDAO = new AlunoDAO();
             Connection con = ConnectionFactory.getConnection();
-            escolaFacade.validaProfessorParaTurma(idProfessor, idTurma);
+            professorFacade.validaProfessorParaTurma(idProfessor, idTurma);
             return alunoDAO.getAlunosPorTurma(idTurma, con);
         } catch (ProfessorInvalidoException e) {
             logger.info("Professor: " + idProfessor + " não tem acesso a turma: " + idTurma);

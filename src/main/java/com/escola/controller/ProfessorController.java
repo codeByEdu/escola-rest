@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.escola.business.EscolaFacade;
+import com.escola.business.ProfessorFacade;
 import com.escola.model.ProfessorVO;
 import com.escola.model.TipoVO;
 
@@ -28,7 +29,7 @@ public class ProfessorController {
   public ResponseEntity getProfessorres() {
 
     try {
-      EscolaFacade facade = new EscolaFacade();
+      ProfessorFacade facade = new ProfessorFacade();
       List<ProfessorVO> professores = facade.getProfessores();
       return ResponseEntity.ok().body(professores);
     } catch (Exception e) {
@@ -38,18 +39,18 @@ public class ProfessorController {
 
   @GetMapping("/tipos")
   public ResponseEntity getTiposProfessor() {
-    EscolaFacade facade = new EscolaFacade();
+    ProfessorFacade facade = new ProfessorFacade();
 
     List<TipoVO> tipos = facade.getTipoProfessor();
     return ResponseEntity.ok().body(tipos);
 
   }
 
-  @PostMapping("")
+  @PostMapping("/add")
   public ResponseEntity addProfessor(@RequestBody ProfessorVO prof) {
 
     try {
-      EscolaFacade facade = new EscolaFacade();
+      ProfessorFacade facade = new ProfessorFacade();
       facade.addProfessor(prof);
 
       return ResponseEntity.ok().build();
@@ -63,7 +64,7 @@ public class ProfessorController {
   public ResponseEntity removeProfessor(@PathVariable Long idProf) {
 
     try {
-      EscolaFacade facade = new EscolaFacade();
+      ProfessorFacade facade = new ProfessorFacade();
       facade.removeProfessor(idProf);
 
       return ResponseEntity.ok().build();
@@ -74,11 +75,11 @@ public class ProfessorController {
   }
 
   // update professor
-  @PatchMapping("")
+  @PatchMapping("/patch")
   public ResponseEntity updateProfessor(@RequestBody ProfessorVO prof) {
 
     try {
-      EscolaFacade facade = new EscolaFacade();
+      ProfessorFacade facade = new ProfessorFacade();
       facade.updateProfessor(prof);
 
       return ResponseEntity.ok().build();

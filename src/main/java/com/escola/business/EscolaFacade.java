@@ -7,66 +7,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.escola.config.ConnectionFactory;
+import com.escola.domain.AlunoDAO;
 import com.escola.domain.EscolaDAO;
 import com.escola.model.AlunoVO;
 import com.escola.model.DisciplinaVO;
 import com.escola.model.FaltaVO;
-import com.escola.model.ProfessorVO;
-import com.escola.model.TipoVO;
-import com.escola.model.TurmaVO;
 
 public class EscolaFacade {
 
     static final Logger logger = LoggerFactory.getLogger(EscolaFacade.class);
 
-    public void validaProfessorParaTurma(Integer idProfessor, Integer idTurma) throws ProfessorInvalidoException {
-
-        try {
-            EscolaDAO escolaDAO = new EscolaDAO();
-            Connection con = ConnectionFactory.getConnection();
-            if (!escolaDAO.validaProfessorParaTurma(idProfessor, idTurma, con)) {
-                throw new ProfessorInvalidoException();
-            }
-        } catch (ProfessorInvalidoException e) {
-            throw new ProfessorInvalidoException();
-        } catch (Exception e) {
-            logger.error("erro ao buscar alunos dessa sala", e);
-        }
-
-    }
-
-    public List<ProfessorVO> getProfessores() {
-        try {
-            EscolaDAO escolaDAO = new EscolaDAO();
-            Connection con = ConnectionFactory.getConnection();
-
-            return escolaDAO.getProfessores(con);
-        } catch (Exception e) {
-            logger.error("Erro ao buscar professores", e);
-        }
-        return null;
-    }
-
     public AlunoVO obtemAlunoPorId(Integer codAluno) {
         try {
-            EscolaDAO escolaDAO = new EscolaDAO();
+            AlunoDAO alunoDAO = new AlunoDAO();
             Connection con = ConnectionFactory.getConnection();
 
-            return escolaDAO.getAlunoPorId(con, codAluno);
+            return alunoDAO.getAlunoPorId(con, codAluno);
         } catch (Exception e) {
             logger.error("Erro ao buscar aluno", e);
-        }
-        return null;
-    }
-
-    public ProfessorVO obtemProfessorPorId(Integer codProf) {
-        try {
-            EscolaDAO escolaDAO = new EscolaDAO();
-            Connection con = ConnectionFactory.getConnection();
-
-            return escolaDAO.getProfessorPorId(con, codProf);
-        } catch (Exception e) {
-            logger.error("Erro ao buscar professor", e);
         }
         return null;
     }
@@ -83,30 +41,6 @@ public class EscolaFacade {
 
     }
 
-    public List<TurmaVO> getTurmas() {
-        try {
-            EscolaDAO escolaDAO = new EscolaDAO();
-            Connection con = ConnectionFactory.getConnection();
-
-            return escolaDAO.getTurmas(con);
-        } catch (Exception e) {
-            logger.error("Erro ao buscar turmas", e);
-        }
-        return null;
-    }
-
-    public List<TipoVO> getTipoProfessor() {
-        try {
-            EscolaDAO escolaDAO = new EscolaDAO();
-            Connection con = ConnectionFactory.getConnection();
-
-            return escolaDAO.getTiposProfessor(con);
-        } catch (Exception e) {
-            logger.error("Erro ao buscar tipos de professor", e);
-        }
-        return null;
-    }
-
     public List<DisciplinaVO> getDisciplinas() {
         try {
             EscolaDAO escolaDAO = new EscolaDAO();
@@ -117,70 +51,6 @@ public class EscolaFacade {
             logger.error("Erro ao buscar disciplinas", e);
         }
         return null;
-    }
-
-    public void addProfessor(ProfessorVO prof) throws Exception {
-
-        try {
-            EscolaDAO escolaDAO = new EscolaDAO();
-            Connection con = ConnectionFactory.getConnection();
-
-            escolaDAO.addProfessor(prof, con);
-        } catch (Exception e) {
-            logger.error("Erro ao add professor", e);
-            throw new Exception(e);
-        }
-    }
-
-    public void addTurma(TurmaVO turma) throws Exception {
-
-        try {
-            EscolaDAO escolaDAO = new EscolaDAO();
-            Connection con = ConnectionFactory.getConnection();
-
-            escolaDAO.addTurma(turma, con);
-        } catch (Exception e) {
-            logger.error("Erro ao add turma", e);
-            throw new Exception(e);
-        }
-    }
-
-    // vincular professor a turma
-    public void vinculaProfessorTurma(Integer idProfessor, Integer idTurma) throws Exception {
-
-        try {
-            EscolaDAO escolaDAO = new EscolaDAO();
-            Connection con = ConnectionFactory.getConnection();
-
-            escolaDAO.vincularProfessorTurma(idProfessor, idTurma, con);
-        } catch (Exception e) {
-            logger.error("Erro ao vincular professor a turma", e);
-            throw new Exception(e);
-        }
-    }
-
-    public void removeProfessor(Long idProf) throws Exception {
-
-        try {
-            EscolaDAO escolaDAO = new EscolaDAO();
-            Connection con = ConnectionFactory.getConnection();
-
-            escolaDAO.deleteProfessor(idProf, con);
-        } catch (Exception e) {
-            logger.error("Erro ao remover professor", e);
-            throw new Exception(e);
-        }
-    }
-
-    public void updateProfessor(ProfessorVO prof) {
-        try {
-            EscolaDAO escolaDAO = new EscolaDAO();
-            Connection con = ConnectionFactory.getConnection();
-
-            escolaDAO.updateProfessor(prof, con);
-        } catch (Exception e) {
-            logger.error("Erro ao atualizar professor", e);
-        }
     }
 
 }
