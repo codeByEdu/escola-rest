@@ -1,5 +1,6 @@
 package com.escola.domain;
 
+import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -53,14 +54,15 @@ public class TurmaDAO {
         sql.append(" VALUES");
         sql.append(" (?)");
         try {
-            pst = con.prepareStatement(sql.toString());
+            pst = con.prepareStatement(sql.toString(), 1);
             pst.setString(1, turma.getAno());
 
             pst.executeUpdate();
+
             // atribui idTurma ao idCriado no banco agora
             ResultSet rs = pst.getGeneratedKeys();
             if (rs.next()) {
-                idTurma = rs.getInt(1);
+                idTurma = (int) rs.getLong(1);
             }
             rs.close();
 

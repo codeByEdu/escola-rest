@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.escola.business.AlunoFacade;
-import com.escola.business.EscolaFacade;
 import com.escola.business.ProfessorInvalidoException;
 import com.escola.model.AlunoVO;
 

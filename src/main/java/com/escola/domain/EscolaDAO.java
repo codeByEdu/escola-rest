@@ -10,12 +10,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
-import com.escola.model.AlunoVO;
 import com.escola.model.DisciplinaVO;
 import com.escola.model.FaltaVO;
-import com.escola.model.ProfessorVO;
-import com.escola.model.TipoVO;
-import com.escola.model.TurmaRequestVO;
 import com.escola.model.TurmaVO;
 
 public class EscolaDAO {

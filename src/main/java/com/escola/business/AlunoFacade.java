@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import com.escola.config.ConnectionFactory;
 import com.escola.domain.AlunoDAO;
-import com.escola.domain.EscolaDAO;
 import com.escola.model.AlunoVO;
 
 public class AlunoFacade {

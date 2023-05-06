@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import com.escola.config.ConnectionFactory;
 import com.escola.domain.ProfessorDAO;
-import com.escola.domain.ProfessorDAO;
 import com.escola.model.ProfessorVO;
 import com.escola.model.TipoVO;
 
