@@ -7,7 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.escola.config.ConnectionFactory;
+
 import com.escola.domain.TurmaDAO;
+import com.escola.model.HorarioVO;
 import com.escola.model.TurmaRequestVO;
 import com.escola.model.TurmaVO;
 
@@ -51,5 +53,17 @@ public class TurmaFacade {
             logger.error("Erro ao vincular professor a turma", e);
             throw new Exception(e);
         }
+    }
+
+    public HorarioVO getHorario(Integer idTurma, Integer diaSemana, Integer ordemAula) {
+        try {
+            TurmaDAO turmaDAO = new TurmaDAO();
+            Connection con = ConnectionFactory.getConnection();
+
+            return turmaDAO.getHorario(idTurma, diaSemana, ordemAula, con);
+        } catch (Exception e) {
+            logger.error("Erro ao buscar horario", e);
+        }
+        return null;
     }
 }

@@ -1,5 +1,6 @@
 package com.escola.domain;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,6 +11,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
+import com.escola.config.ConnectionFactory;
 import com.escola.model.DisciplinaVO;
 import com.escola.model.FaltaVO;
 import com.escola.model.TurmaVO;
@@ -19,20 +21,22 @@ public class EscolaDAO {
     @Autowired
     NamedParameterJdbcTemplate jdbcTemplate;
 
-    public void registraFalta(Connection con, FaltaVO falta) throws SQLException {
-
+    public void registraFalta(Integer codAluno, Integer codHorario) throws SQLException, IOException {
+        Connection con = ConnectionFactory.getConnection();
         StringBuilder sql = new StringBuilder();
         PreparedStatement pst = null;
 
-        sql.append(" insert into  faltas");
-        sql.append(" (CD_ALUNO, CD_PROF, TX_JUSTIFICATIVA, DT_FALTA) ");
-        sql.append(" VALUES");
-        sql.append(" (?,?,?, current_date())");
+        sql.append(" insert into  falta ");
+        sql.append(" (CD_ALUNO, CD_HORARIO, DT_APLICACAO) ");
+        sql.append(" VALUES ");
+        sql.append(" (?, ?, current_date)");
         try {
             pst = con.prepareStatement(sql.toString());
-            pst.setInt(1, falta.getCodAluno());
-            pst.setInt(2, falta.getCodProf());
-            pst.setString(3, falta.getJustificativa());
+            pst.setInt(1, codAluno);
+            pst.setInt(2, codHorario);
+
+            // pst.setInt(2, falta.getCodProf());
+            // pst.setString(3, falta.getJustificativa());
 
             pst.executeUpdate();
 
@@ -84,6 +88,32 @@ public class EscolaDAO {
         } finally {
             con.close();
             pst.close();
+        }
+    }
+
+    public void registraAula(Connection con, Integer codHorario) {
+        StringBuilder sql = new StringBuilder();
+        PreparedStatement pst = null;
+
+        sql.append(" insert into  AULA ");
+        sql.append(" (CD_HORARIO, DT_REALIZACAO) ");
+        sql.append(" VALUES ");
+        sql.append(" (?, current_date)");
+        try {
+            pst = con.prepareStatement(sql.toString());
+            pst.setInt(1, codHorario);
+
+            pst.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                con.close();
+                pst.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

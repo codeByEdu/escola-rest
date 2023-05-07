@@ -1,30 +1,26 @@
 package com.escola.model;
 
+import java.util.List;
+
 public class FaltaVO {
-    private Integer codAluno;
-    private Integer codProf;
-    private String justificativa;
 
-    
-    public Integer getCodAluno() {
-        return codAluno;
-    }
-    public void setCodAluno(Integer codAluno) {
-        this.codAluno = codAluno;
-    }
-    public Integer getCodProf() {
-        return codProf;
-    }
-    public void setCodProf(Integer codProf) {
-        this.codProf = codProf;
-    }
-    public String getJustificativa() {
-        return justificativa;
-    }
-    public void setJustificativa(String justificativa) {
-        this.justificativa = justificativa;
+    private List<AlunoVO> alunos;
+    private Integer codHorario;
+
+    public Integer getCodHorario() {
+        return codHorario;
     }
 
-    
+    public void setCodHorario(Integer codHorario) {
+        this.codHorario = codHorario;
+    }
+
+    public List<AlunoVO> getAlunos() {
+        return alunos;
+    }
+
+    public void setAlunos(List<AlunoVO> alunos) {
+        this.alunos = alunos;
+    }
 
 }

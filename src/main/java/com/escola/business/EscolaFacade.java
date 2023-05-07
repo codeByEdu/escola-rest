@@ -32,9 +32,11 @@ public class EscolaFacade {
     public void registraFalta(FaltaVO falta) {
         try {
             EscolaDAO escolaDAO = new EscolaDAO();
-            Connection con = ConnectionFactory.getConnection();
 
-            escolaDAO.registraFalta(con, falta);
+            for (AlunoVO aluno : falta.getAlunos()) {
+                escolaDAO.registraFalta(aluno.getId(), falta.getCodHorario());
+            }
+
         } catch (Exception e) {
             logger.error("Erro ao registrar falta", e);
         }
@@ -51,6 +53,17 @@ public class EscolaFacade {
             logger.error("Erro ao buscar disciplinas", e);
         }
         return null;
+    }
+
+    public void registraAula(Integer codHorario) {
+        try {
+            EscolaDAO escolaDAO = new EscolaDAO();
+            Connection con = ConnectionFactory.getConnection();
+
+            escolaDAO.registraAula(con, codHorario);
+        } catch (Exception e) {
+            logger.error("Erro ao registrar aula", e);
+        }
     }
 
 }

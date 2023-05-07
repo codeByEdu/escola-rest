@@ -6,12 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.escola.business.TurmaFacade;
+import com.escola.model.HorarioVO;
 import com.escola.model.TurmaRequestVO;
 import com.escola.model.TurmaVO;
 
@@ -44,5 +46,17 @@ public class TurmaController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    // get horario
+    @GetMapping("/{idTurma}/horario/{diaSemana}/{ordemAula}")
+    public ResponseEntity getHorario(@PathVariable Integer idTurma, @PathVariable Integer diaSemana,
+            @PathVariable Integer ordemAula) {
+        TurmaFacade facade = new TurmaFacade();
+
+        HorarioVO horario = facade.getHorario(idTurma, diaSemana, ordemAula);
+
+        return ResponseEntity.ok().body(horario);
+
     }
 }

@@ -27,22 +27,17 @@ public class EscolaController {
   @PostMapping("/falta")
   public ResponseEntity postFalta(@RequestBody FaltaVO falta) {
     try {
-      if (falta == null || falta.getCodAluno() == null || falta.getCodProf() == null) {
+      if (falta == null || falta.getAlunos() == null || falta.getAlunos().isEmpty()
+          || falta.getCodHorario() == null) {
         return ResponseEntity.badRequest().build();
       } else {
         EscolaFacade facade = new EscolaFacade();
-        ProfessorFacade professorFacade = new ProfessorFacade();
-        AlunoVO aluno = facade.obtemAlunoPorId(falta.getCodAluno());
-        ProfessorVO professor = professorFacade.obtemProfessorPorId(falta.getCodProf());
-        if (professor == null) {
-          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Constants.PROFESSOR_NAO_ENCONTRADO_TEXTO);
-        } else if (aluno == null) {
-          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Constants.ALUNO_NAO_ENCONTRADO_TEXTO);
-        } else {
-          facade.registraFalta(falta);
-          return ResponseEntity.status(HttpStatus.CREATED).body("Falta registrada");
+        facade.registraAula(falta.getCodHorario());
+        // ProfessorVO professor =
+        // professorFacade.obtemProfessorPorId(falta.getCodProf());
+        facade.registraFalta(falta);
 
-        }
+        return ResponseEntity.status(HttpStatus.CREATED).body("Falta registrada");
       }
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

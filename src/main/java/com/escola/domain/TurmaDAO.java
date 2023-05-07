@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.escola.model.HorarioVO;
 import com.escola.model.TurmaRequestVO;
 import com.escola.model.TurmaVO;
 
@@ -94,6 +95,39 @@ public class TurmaDAO {
             con.close();
             pst.close();
         }
+    }
+
+    public HorarioVO getHorario(Integer idTurma, Integer diaSemana, Integer ordemAula, Connection con)
+            throws SQLException {
+
+        StringBuilder sql = new StringBuilder();
+        PreparedStatement pst = null;
+        HorarioVO horario = new HorarioVO();
+        sql.append("select * from HORARIO");
+        sql.append(" where CD_TURMA = ? and NM_DIA_SEMANA = ? and NM_ORDEM_AULA = ?");
+
+        try {
+            pst = con.prepareStatement(sql.toString());
+            pst.setInt(1, idTurma);
+            pst.setInt(2, diaSemana);
+            pst.setInt(3, ordemAula);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                horario.setIdHorario(rs.getInt("CD_HORARIO"));
+                horario.setIdTurma(rs.getInt("CD_TURMA"));
+                horario.setIdDisciplina(rs.getInt("CD_DISCIPLINA"));
+                // horario.setIdProfessor(rs.getInt("CD_PROFESSOR"));
+                horario.setDiaSemana(rs.getInt("NM_DIA_SEMANA"));
+                horario.setOrdemAula(rs.getInt("NM_ORDEM_AULA"));
+                horario.setNomeDisciplina(rs.getString("TX_DISCIPLINA"));
+            }
+
+            return horario;
+        } finally {
+            con.close();
+            pst.close();
+        }
+
     }
 
 }
