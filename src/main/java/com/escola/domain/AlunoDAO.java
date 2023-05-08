@@ -7,9 +7,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.escola.model.AlunoVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 
+import com.escola.model.AlunoVO;
+import com.escola.model.dto.UpdateAlunoDTO;
+
+@Repository
 public class AlunoDAO {
+
+    @Autowired
+    private NamedParameterJdbcTemplate jdbcTemplate;
+
     public List<AlunoVO> getAlunosPorTurma(Integer id, Connection connection) throws SQLException {
         StringBuilder sql = new StringBuilder();
         PreparedStatement pst = null;
@@ -85,6 +95,25 @@ public class AlunoDAO {
             con.close();
             pst.close();
         }
+    }
+
+    public void updateAluno(Connection con, Integer idAluno, UpdateAlunoDTO updateAluno) throws SQLException {
+        PreparedStatement pst = null;
+        StringBuilder sql = new StringBuilder();
+
+        sql.append(" UPDATE ALUNO ");
+        sql.append(" SET TX_NOME = ? ,");
+        sql.append(" TX_EMAIL = ? ,");
+        sql.append(" CD_TURMA = ? ");
+        sql.append(" WHERE CD_ALUNO = ? ");
+
+        pst = con.prepareStatement(sql.toString());
+        pst.setString(1, updateAluno.getNome());
+        pst.setString(2, updateAluno.getEmailResponsavel());
+        pst.setInt(3, updateAluno.getCdTurma());
+        pst.setInt(4, idAluno);
+
+        pst.executeUpdate();
     }
 
 }
