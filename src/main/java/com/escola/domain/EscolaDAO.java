@@ -117,4 +117,32 @@ public class EscolaDAO {
         }
     }
 
+    public boolean validaAula(Integer codHorario) throws IOException, SQLException {
+        Connection con = ConnectionFactory.getConnection();
+        StringBuilder sql = new StringBuilder();
+        PreparedStatement pst = null;
+
+        sql.append(" select count(*) as qtd ");
+        sql.append(" from  AULA ");
+        sql.append(" where CD_HORARIO = ? ");
+        sql.append(" and DT_REALIZACAO = current_date ");
+        try {
+            pst = con.prepareStatement(sql.toString());
+            pst.setInt(1, codHorario);
+
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                if (rs.getInt("qtd") > 0) {
+                    return true;
+                }
+            }
+
+        } finally {
+            con.close();
+            pst.close();
+        }
+        return false;
+
+    }
+
 }

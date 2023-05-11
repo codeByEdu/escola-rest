@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.escola.business.AulaJaRealizadaException;
 import com.escola.business.EscolaFacade;
 import com.escola.business.ProfessorFacade;
 import com.escola.config.Constants;
@@ -19,27 +20,34 @@ import com.escola.model.DisciplinaVO;
 import com.escola.model.FaltaVO;
 import com.escola.model.ProfessorVO;
 
+import ch.qos.logback.classic.Logger;
+
 @CrossOrigin(origins = "*")
 @RequestMapping("/escola")
 @RestController
 public class EscolaController {
+  Logger logger = (Logger) org.slf4j.LoggerFactory.getLogger(EscolaController.class);
 
   @PostMapping("/falta")
   public ResponseEntity postFalta(@RequestBody FaltaVO falta) {
     try {
       if (falta == null || falta.getAlunos() == null || falta.getAlunos().isEmpty()
           || falta.getCodHorario() == null) {
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.badRequest().body("Dados enviados inválidos");
       } else {
         EscolaFacade facade = new EscolaFacade();
         facade.registraAula(falta.getCodHorario());
         // ProfessorVO professor =
         // professorFacade.obtemProfessorPorId(falta.getCodProf());
         facade.registraFalta(falta);
-
         return ResponseEntity.status(HttpStatus.CREATED).body("Falta registrada");
       }
-    } catch (Exception e) {
+    } catch (AulaJaRealizadaException e) {
+      logger.info("Aula já realizada");
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Aula já realizada");
+    }
+
+    catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
   }
