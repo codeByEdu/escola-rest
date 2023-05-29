@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.escola.model.AlunoVO;
-import com.escola.model.dto.UpdateAlunoDTO;
+import com.escola.model.dto.AlunoDTO;
 
 @Repository
 public class AlunoDAO {
@@ -97,7 +97,7 @@ public class AlunoDAO {
         }
     }
 
-    public void updateAluno(Connection con, Integer idAluno, UpdateAlunoDTO updateAluno) throws SQLException {
+    public void updateAluno(Connection con, Integer idAluno, AlunoDTO updateAluno) throws SQLException {
         PreparedStatement pst = null;
         StringBuilder sql = new StringBuilder();
 
@@ -114,6 +114,27 @@ public class AlunoDAO {
         pst.setInt(4, idAluno);
 
         pst.executeUpdate();
+    }
+
+    public void addAluno(Connection con, AlunoDTO aluno) {
+        PreparedStatement pst = null;
+        StringBuilder sql = new StringBuilder();
+
+        sql.append(" INSERT INTO ALUNO ");
+        sql.append(" (TX_NOME, TX_EMAIL, CD_TURMA) ");
+        sql.append(" VALUES ");
+        sql.append(" (?, ?, ?) ");
+
+        try {
+            pst = con.prepareStatement(sql.toString());
+            pst.setString(1, aluno.getNome());
+            pst.setString(2, aluno.getEmailResponsavel());
+            pst.setInt(3, aluno.getCdTurma());
+
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

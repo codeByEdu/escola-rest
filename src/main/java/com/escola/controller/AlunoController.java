@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.escola.business.AlunoFacade;
 import com.escola.business.ProfessorInvalidoException;
 import com.escola.model.AlunoVO;
-import com.escola.model.dto.UpdateAlunoDTO;
+import com.escola.model.dto.AlunoDTO;
 
 @CrossOrigin(origins = "*")
 @RequestMapping("/aluno")
@@ -63,8 +64,19 @@ public class AlunoController {
 
   }
 
+  @PostMapping()
+  public ResponseEntity addAluno(@RequestBody AlunoDTO aluno) {
+    AlunoFacade facade = new AlunoFacade();
+    try {
+      facade.addAluno(aluno);
+      return ResponseEntity.status(HttpStatus.CREATED).body("Aluno criado com sucesso");
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao criar aluno");
+    }
+  }
+
   @PutMapping("/{idAluno}")
-  public void updateAluno(@PathVariable Integer idAluno, @RequestBody UpdateAlunoDTO updateAlunoDTO)
+  public void updateAluno(@PathVariable Integer idAluno, @RequestBody AlunoDTO updateAlunoDTO)
       throws SQLException, IOException {
     System.out.println(idAluno);
     AlunoFacade facade = new AlunoFacade();

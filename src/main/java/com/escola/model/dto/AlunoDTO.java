@@ -1,6 +1,6 @@
 package com.escola.model.dto;
 
-public class UpdateAlunoDTO {
+public class AlunoDTO {
     private String nome;
     private String emailResponsavel;
     private Integer cdTurma;

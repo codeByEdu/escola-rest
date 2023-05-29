@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,7 +118,7 @@ public class EscolaDAO {
         }
     }
 
-    public boolean validaAula(Integer codHorario) throws IOException, SQLException {
+    public boolean validaAula(Integer codHorario, Date dataFalta) throws IOException, SQLException {
         Connection con = ConnectionFactory.getConnection();
         StringBuilder sql = new StringBuilder();
         PreparedStatement pst = null;
@@ -125,10 +126,11 @@ public class EscolaDAO {
         sql.append(" select count(*) as qtd ");
         sql.append(" from  AULA ");
         sql.append(" where CD_HORARIO = ? ");
-        sql.append(" and DT_REALIZACAO = current_date ");
+        sql.append(" and DT_REALIZACAO = ? ");
         try {
             pst = con.prepareStatement(sql.toString());
             pst.setInt(1, codHorario);
+            pst.setDate(2, new java.sql.Date(dataFalta.getTime()));
 
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {

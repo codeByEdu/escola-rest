@@ -1,6 +1,7 @@
 package com.escola.business;
 
 import java.sql.Connection;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -59,14 +60,15 @@ public class EscolaFacade {
         try {
             EscolaDAO escolaDAO = new EscolaDAO();
             Connection con = ConnectionFactory.getConnection();
-            if (escolaDAO.validaAula(codHorario)) {
-                throw new AulaJaRealizadaException("Aula já realizada");
-            }
+            // if (escolaDAO.validaAula(codHorario, dataFalta)) {
+            // throw new AulaJaRealizadaException("Aula já realizada");
+            // }
 
             escolaDAO.registraAula(con, codHorario);
-        } catch (AulaJaRealizadaException e) {
-            throw new AulaJaRealizadaException("Aula Ja Realizada");
         }
+        // catch (AulaJaRealizadaException e) {
+        // throw new AulaJaRealizadaException("Aula Ja Realizada");
+        // }
 
         catch (Exception e) {
             logger.error("Erro ao registrar aula", e);

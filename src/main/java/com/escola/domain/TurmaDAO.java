@@ -104,6 +104,7 @@ public class TurmaDAO {
         PreparedStatement pst = null;
         HorarioVO horario = new HorarioVO();
         sql.append("select * from HORARIO");
+        sql.append(" inner join DISCIPLINA on (HORARIO.CD_DISCIPLINA = DISCIPLINA.CD_DISCIPLINA)");
         sql.append(" where CD_TURMA = ? and NM_DIA_SEMANA = ? and NM_ORDEM_AULA = ?");
 
         try {
@@ -119,7 +120,7 @@ public class TurmaDAO {
                 // horario.setIdProfessor(rs.getInt("CD_PROFESSOR"));
                 horario.setDiaSemana(rs.getInt("NM_DIA_SEMANA"));
                 horario.setOrdemAula(rs.getInt("NM_ORDEM_AULA"));
-                horario.setNomeDisciplina(rs.getString("TX_DISCIPLINA"));
+                horario.setNomeDisciplina(rs.getString("TX_DESCRICAO"));
             }
 
             return horario;

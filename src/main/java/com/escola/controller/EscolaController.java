@@ -42,10 +42,11 @@ public class EscolaController {
         facade.registraFalta(falta);
         return ResponseEntity.status(HttpStatus.CREATED).body("Falta registrada");
       }
-    } catch (AulaJaRealizadaException e) {
-      logger.info("Aula já realizada");
-      return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Aula já realizada");
     }
+    // catch (AulaJaRealizadaException e) {
+    // logger.info("Aula já realizada");
+    // return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Aula já realizada");
+    // }
 
     catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

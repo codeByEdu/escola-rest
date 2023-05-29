@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.escola.config.ConnectionFactory;
 import com.escola.domain.AlunoDAO;
 import com.escola.model.AlunoVO;
-import com.escola.model.dto.UpdateAlunoDTO;
+import com.escola.model.dto.AlunoDTO;
 
 @Service
 public class AlunoFacade {
@@ -57,9 +57,19 @@ public class AlunoFacade {
         return null;
     }
 
-    public void updateAluno(Integer idAluno, UpdateAlunoDTO updateAluno) throws SQLException, IOException {
+    public void updateAluno(Integer idAluno, AlunoDTO updateAluno) throws SQLException, IOException {
         Connection con = ConnectionFactory.getConnection();
         AlunoDAO alunoDAO = new AlunoDAO();
         alunoDAO.updateAluno(con, idAluno, updateAluno);
+    }
+
+    public void addAluno(AlunoDTO aluno) {
+        try {
+            Connection con = ConnectionFactory.getConnection();
+            AlunoDAO alunoDAO = new AlunoDAO();
+            alunoDAO.addAluno(con, aluno);
+        } catch (Exception e) {
+            logger.error("Erro ao adicionar aluno", e);
+        }
     }
 }
