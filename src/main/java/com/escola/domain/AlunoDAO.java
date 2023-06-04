@@ -137,4 +137,22 @@ public class AlunoDAO {
         }
     }
 
+    public void deleteAluno(Connection con, Integer idAluno) {
+        PreparedStatement pst = null;
+        StringBuilder sql = new StringBuilder();
+
+        sql.append(" DELETE FROM ALUNO ");
+        sql.append(" WHERE CD_ALUNO = ? ");
+
+        try {
+            pst = con.prepareStatement(sql.toString());
+            pst.setInt(1, idAluno);
+
+            pst.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

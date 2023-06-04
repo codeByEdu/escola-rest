@@ -72,4 +72,14 @@ public class AlunoFacade {
             logger.error("Erro ao adicionar aluno", e);
         }
     }
+
+    public void deleteAluno(Integer idAluno) {
+        try {
+            Connection con = ConnectionFactory.getConnection();
+            AlunoDAO alunoDAO = new AlunoDAO();
+            alunoDAO.deleteAluno(con, idAluno);
+        } catch (Exception e) {
+            logger.error("Erro ao deletar aluno", e);
+        }
+    }
 }
