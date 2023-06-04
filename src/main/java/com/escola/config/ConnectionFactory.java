@@ -20,7 +20,7 @@ public class ConnectionFactory {
         try {
 
             return DriverManager.getConnection(
-                    "jdbc:postgresql://henriquehiga.com:32/edu-sistema-falta", "postgres", "devdbhiga");
+                    "jdbc:postgresql://172.107.45.215:32/edu-sistema-falta", "postgres", "devdbhiga");
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
