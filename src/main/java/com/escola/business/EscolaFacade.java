@@ -56,19 +56,18 @@ public class EscolaFacade {
         return null;
     }
 
-    public void registraAula(Integer codHorario) throws AulaJaRealizadaException {
+    public void registraAula(Integer codHorario, Date date) throws AulaJaRealizadaException {
         try {
             EscolaDAO escolaDAO = new EscolaDAO();
             Connection con = ConnectionFactory.getConnection();
-            // if (escolaDAO.validaAula(codHorario, dataFalta)) {
-            // throw new AulaJaRealizadaException("Aula já realizada");
-            // }
+            if (escolaDAO.validaAula(codHorario, date)) {
+                throw new AulaJaRealizadaException("Aula já realizada");
+            }
 
-            escolaDAO.registraAula(con, codHorario);
+            escolaDAO.registraAula(con, codHorario, date);
+        } catch (AulaJaRealizadaException e) {
+            throw new AulaJaRealizadaException("Aula Ja Realizada");
         }
-        // catch (AulaJaRealizadaException e) {
-        // throw new AulaJaRealizadaException("Aula Ja Realizada");
-        // }
 
         catch (Exception e) {
             logger.error("Erro ao registrar aula", e);

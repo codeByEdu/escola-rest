@@ -7,6 +7,7 @@ public class FaltaVO {
 
     private List<AlunoVO> alunos;
     private Integer codHorario;
+    private Date dataFalta;
 
     public Integer getCodHorario() {
         return codHorario;
@@ -22,6 +23,14 @@ public class FaltaVO {
 
     public void setAlunos(List<AlunoVO> alunos) {
         this.alunos = alunos;
+    }
+
+    public Date getDataFalta() {
+        return dataFalta;
+    }
+
+    public void setDataFalta(Date dataFalta) {
+        this.dataFalta = dataFalta;
     }
 
 }

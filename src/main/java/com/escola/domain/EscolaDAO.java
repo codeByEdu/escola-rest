@@ -92,17 +92,18 @@ public class EscolaDAO {
         }
     }
 
-    public void registraAula(Connection con, Integer codHorario) {
+    public void registraAula(Connection con, Integer codHorario, Date date) {
         StringBuilder sql = new StringBuilder();
         PreparedStatement pst = null;
 
         sql.append(" insert into  AULA ");
         sql.append(" (CD_HORARIO, DT_REALIZACAO) ");
         sql.append(" VALUES ");
-        sql.append(" (?, current_date)");
+        sql.append(" (?, ?)");
         try {
             pst = con.prepareStatement(sql.toString());
             pst.setInt(1, codHorario);
+            pst.setDate(2, new java.sql.Date(date.getTime()));
 
             pst.executeUpdate();
 
