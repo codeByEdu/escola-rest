@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +26,8 @@ import ch.qos.logback.classic.Logger;
 public class EscolaController {
   Logger logger = (Logger) org.slf4j.LoggerFactory.getLogger(EscolaController.class);
 
-  @GetMapping("/falta")
-  public ResponseEntity<?> resgataFaltas(@RequestParam Integer idAluno) {
+  @GetMapping("/falta/{idAluno}")
+  public ResponseEntity<?> resgataFaltas(@PathVariable Integer idAluno) {
     try {
       EscolaFacade facade = new EscolaFacade();
       return ResponseEntity.status(200).body(facade.resgataFaltas(idAluno));

@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -23,14 +24,11 @@ import com.escola.model.TurmaVO;
 
 public class EscolaDAO {
 
-    @Autowired
-    NamedParameterJdbcTemplate jdbcTemplate;
-
     public List<RelatorioFaltaVO> resgataFalta(Integer idAluno) throws SQLException, IOException {
         Connection con = ConnectionFactory.getConnection();
         StringBuilder sql = new StringBuilder();
-        MapSqlParameterSource params = new MapSqlParameterSource();
-
+        PreparedStatement pst = null;
+        List<RelatorioFaltaVO> relatorios = new ArrayList<>();
         sql.append(" SELECT ");
         sql.append(" a.tx_nome AS aluno, ");
         sql.append(" d.tx_descricao AS disciplina,  ");
@@ -40,34 +38,29 @@ public class EscolaDAO {
         sql.append(" INNER JOIN falta f ON a.cd_aluno = f.cd_aluno ");
         sql.append(" INNER JOIN horario h ON f.cd_horario = h.cd_horario ");
         sql.append(" INNER JOIN disciplina d ON h.cd_disciplina = d.cd_disciplina ");
-        sql.append(" WHERE a.cd_aluno = :idAluno ");
+        sql.append(" WHERE a.cd_aluno = ? ");
         sql.append(" GROUP BY ");
         sql.append(" a.tx_nome, ");
         sql.append(" d.tx_descricao; ");
 
         try {
-            params.addValue("idAluno", idAluno);
-            List<RelatorioFaltaVO> relatorios = jdbcTemplate.query(sql.toString(), params,
-                    new ResultSetExtractor<List<RelatorioFaltaVO>>() {
-                        @Override
-                        @Nullable
-                        public List<RelatorioFaltaVO> extractData(ResultSet rs)
-                                throws SQLException, DataAccessException {
-                            List<RelatorioFaltaVO> relatorios = new ArrayList<RelatorioFaltaVO>();
-                            while (rs.next()) {
-                                RelatorioFaltaVO relatorio = new RelatorioFaltaVO();
-                                relatorio.setAluno(rs.getString("aluno"));
-                                relatorio.setDisciplina(rs.getString("aluno"));
-                                relatorio.setTotalFaltas(rs.getInt("total_faltas"));
-                                relatorios.add(relatorio);
-                            }
-                            return relatorios;
-                        }
-                    });
-            return relatorios;
+            pst = con.prepareStatement(sql.toString());
+            pst.setInt(1, idAluno);
+
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                RelatorioFaltaVO relatorioFaltaVO = new RelatorioFaltaVO();
+                relatorioFaltaVO.setAluno(rs.getString("aluno"));
+                relatorioFaltaVO.setDisciplina(rs.getString("disciplina"));
+                relatorioFaltaVO.setTotalFaltas(rs.getInt("total_faltas"));
+                relatorios.add(relatorioFaltaVO);
+            }
+
         } finally {
             con.close();
+            pst.close();
         }
+        return relatorios;
     }
 
     public void registraFalta(Integer codAluno, Integer codHorario, Date date) throws SQLException, IOException {
