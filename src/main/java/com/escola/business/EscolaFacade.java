@@ -87,4 +87,15 @@ public class EscolaFacade {
         }
     }
 
+    public List<RelatorioFaltaVO> resgataPorcentagemFaltas(Integer idAluno) {
+        try {
+            EscolaDAO escolaDAO = new EscolaDAO();
+            List<RelatorioFaltaVO> relatorios = escolaDAO.resgataPorcentagemFalta(idAluno);
+            return relatorios;
+        } catch (Exception e) {
+            logger.error("Erro ao registrar falta", e);
+        }
+        return new ArrayList<>();
+    }
+
 }

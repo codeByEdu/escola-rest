@@ -17,6 +17,7 @@ import com.escola.business.AulaJaRealizadaException;
 import com.escola.business.EscolaFacade;
 import com.escola.model.DisciplinaVO;
 import com.escola.model.FaltaVO;
+import com.escola.model.RelatorioFaltaVO;
 
 import ch.qos.logback.classic.Logger;
 
@@ -31,6 +32,18 @@ public class EscolaController {
     try {
       EscolaFacade facade = new EscolaFacade();
       return ResponseEntity.status(200).body(facade.resgataFaltas(idAluno));
+    } catch (Exception e) {
+      logger.info("Erro ao resgatar faltas");
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao resgatar falta");
+    }
+  }
+
+  @GetMapping("/faltaPorcentagem/{idAluno}")
+  public ResponseEntity<?> resgataPorcentagemFaltas(@PathVariable Integer idAluno) {
+    try {
+      EscolaFacade facade = new EscolaFacade();
+      List<RelatorioFaltaVO> relatorio = facade.resgataPorcentagemFaltas(idAluno);
+      return ResponseEntity.status(200).body(relatorio);
     } catch (Exception e) {
       logger.info("Erro ao resgatar faltas");
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao resgatar falta");

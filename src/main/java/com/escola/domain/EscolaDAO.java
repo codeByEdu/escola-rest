@@ -190,4 +190,46 @@ public class EscolaDAO {
 
     }
 
+    public List<RelatorioFaltaVO> resgataPorcentagemFalta(Integer idAluno) throws SQLException, IOException {
+
+        Connection con = ConnectionFactory.getConnection();
+        StringBuilder sql = new StringBuilder();
+        PreparedStatement pst = null;
+        List<RelatorioFaltaVO> relatorios = new ArrayList<>();
+        sql.append(" SELECT  a.tx_nome AS aluno,  d.tx_descricao AS disciplina, COUNT(f.cd_falta) AS total_faltas,");
+
+        sql.append(" round ((COUNT(f.cd_falta) / d.nm_total_aula :: float) * 100 )AS porcentagem,");
+        sql.append(" d.nm_total_aula ");
+        sql.append(" FROM  aluno a");
+        sql.append(" INNER JOIN falta f ON a.cd_aluno = f.cd_aluno ");
+        sql.append(" INNER JOIN horario h ON f.cd_horario = h.cd_horario ");
+        sql.append(" INNER JOIN disciplina d ON h.cd_disciplina = d.cd_disciplina ");
+        sql.append(" WHERE a.cd_aluno = ? ");
+        sql.append(" GROUP BY ");
+        sql.append("  a.tx_nome,");
+        sql.append(" d.nm_total_aula,");
+        sql.append(" d.tx_descricao;");
+
+        try {
+            pst = con.prepareStatement(sql.toString());
+            pst.setInt(1, idAluno);
+
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                RelatorioFaltaVO relatorioFaltaVO = new RelatorioFaltaVO();
+                relatorioFaltaVO.setAluno(rs.getString("aluno"));
+                relatorioFaltaVO.setDisciplina(rs.getString("disciplina"));
+                relatorioFaltaVO.setTotalFaltas(rs.getInt("total_faltas"));
+                relatorioFaltaVO.setPorcentagemFalta(rs.getInt("porcentagem"));
+                relatorioFaltaVO.setTotalAulas(rs.getInt("nm_total_aula"));
+                relatorios.add(relatorioFaltaVO);
+            }
+
+        } finally {
+            con.close();
+            pst.close();
+        }
+        return relatorios;
+    }
+
 }
