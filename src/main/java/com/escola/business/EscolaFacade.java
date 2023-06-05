@@ -1,6 +1,7 @@
 package com.escola.business;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import com.escola.domain.EscolaDAO;
 import com.escola.model.AlunoVO;
 import com.escola.model.DisciplinaVO;
 import com.escola.model.FaltaVO;
+import com.escola.model.RelatorioFaltaVO;
 
 public class EscolaFacade {
 
@@ -28,6 +30,17 @@ public class EscolaFacade {
             logger.error("Erro ao buscar aluno", e);
         }
         return null;
+    }
+
+    public List<RelatorioFaltaVO> resgataFaltas(Integer idAluno) {
+        try {
+            EscolaDAO escolaDAO = new EscolaDAO();
+            List<RelatorioFaltaVO> relatorios = escolaDAO.resgataFalta(idAluno);
+            return relatorios;
+        } catch (Exception e) {
+            logger.error("Erro ao registrar falta", e);
+        }
+        return new ArrayList<>();
     }
 
     public void registraFalta(FaltaVO falta, Date date) {

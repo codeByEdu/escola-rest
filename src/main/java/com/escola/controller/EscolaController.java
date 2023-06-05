@@ -9,16 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.escola.business.AulaJaRealizadaException;
 import com.escola.business.EscolaFacade;
-import com.escola.business.ProfessorFacade;
-import com.escola.config.Constants;
-import com.escola.model.AlunoVO;
 import com.escola.model.DisciplinaVO;
 import com.escola.model.FaltaVO;
-import com.escola.model.ProfessorVO;
 
 import ch.qos.logback.classic.Logger;
 
@@ -27,6 +24,17 @@ import ch.qos.logback.classic.Logger;
 @RestController
 public class EscolaController {
   Logger logger = (Logger) org.slf4j.LoggerFactory.getLogger(EscolaController.class);
+
+  @GetMapping("/falta")
+  public ResponseEntity<?> resgataFaltas(@RequestParam Integer idAluno) {
+    try {
+      EscolaFacade facade = new EscolaFacade();
+      return ResponseEntity.status(200).body(facade.resgataFaltas(idAluno));
+    } catch (Exception e) {
+      logger.info("Erro ao resgatar faltas");
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao resgatar falta");
+    }
+  }
 
   @PostMapping("/falta")
   public ResponseEntity postFalta(@RequestBody FaltaVO falta) {
