@@ -30,12 +30,12 @@ public class EscolaFacade {
         return null;
     }
 
-    public void registraFalta(FaltaVO falta) {
+    public void registraFalta(FaltaVO falta, Date date) {
         try {
             EscolaDAO escolaDAO = new EscolaDAO();
 
             for (AlunoVO aluno : falta.getAlunos()) {
-                escolaDAO.registraFalta(aluno.getId(), falta.getCodHorario());
+                escolaDAO.registraFalta(aluno.getId(), falta.getCodHorario(), date);
             }
 
         } catch (Exception e) {

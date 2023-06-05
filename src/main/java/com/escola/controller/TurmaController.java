@@ -53,10 +53,7 @@ public class TurmaController {
     public ResponseEntity getHorario(@PathVariable Integer idTurma, @PathVariable Integer diaSemana,
             @PathVariable Integer ordemAula) {
         TurmaFacade facade = new TurmaFacade();
-
         HorarioVO horario = facade.getHorario(idTurma, diaSemana, ordemAula);
-
         return ResponseEntity.ok().body(horario);
-
     }
 }

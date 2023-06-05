@@ -22,7 +22,7 @@ public class EscolaDAO {
     @Autowired
     NamedParameterJdbcTemplate jdbcTemplate;
 
-    public void registraFalta(Integer codAluno, Integer codHorario) throws SQLException, IOException {
+    public void registraFalta(Integer codAluno, Integer codHorario, Date date) throws SQLException, IOException {
         Connection con = ConnectionFactory.getConnection();
         StringBuilder sql = new StringBuilder();
         PreparedStatement pst = null;
@@ -30,11 +30,12 @@ public class EscolaDAO {
         sql.append(" insert into  falta ");
         sql.append(" (CD_ALUNO, CD_HORARIO, DT_APLICACAO) ");
         sql.append(" VALUES ");
-        sql.append(" (?, ?, current_date)");
+        sql.append(" (?, ?, ?)");
         try {
             pst = con.prepareStatement(sql.toString());
             pst.setInt(1, codAluno);
             pst.setInt(2, codHorario);
+            pst.setDate(3, new java.sql.Date(date.getTime()));
 
             // pst.setInt(2, falta.getCodProf());
             // pst.setString(3, falta.getJustificativa());

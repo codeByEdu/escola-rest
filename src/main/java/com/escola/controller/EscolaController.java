@@ -39,7 +39,7 @@ public class EscolaController {
         facade.registraAula(falta.getCodHorario(), falta.getDataFalta());
         // ProfessorVO professor =
         // professorFacade.obtemProfessorPorId(falta.getCodProf());
-        facade.registraFalta(falta);
+        facade.registraFalta(falta, falta.getDataFalta());
         return ResponseEntity.status(HttpStatus.CREATED).body("Falta registrada");
       }
     } catch (AulaJaRealizadaException e) {
